@@ -4,20 +4,22 @@
   "author": "Ben Frederickson <ben@benfrederickson.com> (http:/www.benfrederickson.com)",
   "url": "https://github.com/benfred/venn.js/issues",
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.4",
+    "jshint": "^2.8.0",
     "rollup": "^0.59.4",
     "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-node-resolve": "^3.3.0",
     "tape": "4",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
     "uglify-js": "3",
-    "jshint": "^2.8.0"
+    "vitest": "^3.0.7"
   },
   "description": "Area Proportional Venn and Euler Diagrams",
-  "main": "build/venn.js",
+  "main": "dist/index.js",
   "jsnext:main": "index",
   "files": [
-    "build",
-    "src",
-    "*.js"
+    "dist"
   ],
   "directories": {
     "example": "examples",
@@ -40,14 +42,17 @@
     "esnext": true
   },
   "scripts": {
+    "build:2": "tsup",
+    "test:2": "vitest",
     "pretest": "rm -rf build && rollup -c && cp build/venn.js .",
     "test": "jshint src/*.js && tape 'tests/**/*test.js'",
     "prepublish": "npm run test && uglifyjs build/venn.js -c -m -o build/venn.min.js",
+    "check-exports": "attw --pack .",
     "postpublish": "zip -j build/venn.zip -- LICENSE README.md build/venn.js build/venn.min.js"
   },
   "dependencies": {
-    "fmin": "0.0.2",
     "d3-selection": "^1.0.2",
-    "d3-transition": "^1.0.1"
+    "d3-transition": "^1.0.1",
+    "fmin": "0.0.2"
   }
 }
