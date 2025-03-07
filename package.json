@@ -1,10 +1,19 @@
 {
-  "name": "venn.js",
-  "version": "0.2.20",
+  "name": "venn-helper",
+  "version": "2.0.0",
+  "description": "Area Proportional Venn and Euler Diagrams",
   "author": "Ben Frederickson <ben@benfrederickson.com> (http:/www.benfrederickson.com)",
   "url": "https://github.com/benfred/venn.js/issues",
+  "type": "module",
+  "exports": {
+    "./packake.json": "./package.json",
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",
+    "@changesets/cli": "^2.28.1",
     "@vitest/coverage-v8": "^3.0.7",
     "jshint": "^2.8.0",
     "rollup": "^0.59.4",
@@ -16,7 +25,6 @@
     "uglify-js": "3",
     "vitest": "^3.0.7"
   },
-  "description": "Area Proportional Venn and Euler Diagrams",
   "main": "dist/index.js",
   "jsnext:main": "index",
   "files": [
@@ -43,10 +51,13 @@
     "esnext": true
   },
   "scripts": {
-    "build:2": "tsup",
-    "test:2": "vitest",
+    "build": "tsup",
+    "test": "vitest",
+    "lint": "tsc",
+    "local-release": "changeset version && changeset publish",
+    "ci": "npm run build && npm run lint && npm run check-exports && npm run lint",
     "pretest": "rm -rf build && rollup -c && cp build/venn.js .",
-    "test": "jshint src/*.js && tape 'tests/**/*test.js'",
+    "test:2": "jshint src/*.js && tape 'tests/**/*test.js'",
     "prepublish": "npm run test && uglifyjs build/venn.js -c -m -o build/venn.min.js",
     "check-exports": "attw --pack .",
     "postpublish": "zip -j build/venn.zip -- LICENSE README.md build/venn.js build/venn.min.js"
