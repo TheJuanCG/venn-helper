@@ -22,7 +22,7 @@ export type Area = {
   label?: string;
 };
 
-export type CircleRecord = Record<string | number, Circle>
+export type CircleRecord = Record<string | number, Circle>;
 
 export type Circle = {
   x: number;
@@ -66,9 +66,8 @@ export function venn(areas: Area[], parameters: Params = {}) {
   var circles = initialLayout(areas, parameters);
 
   // transform x/y coordinates to a vector to optimize
-  var initial = [],
-    setids: string[] = [],
-    setid;
+  var initial: number[] = [],
+    setids: string[] = [];
   for (const setid of Object.keys(circles)) {
     const circle = circles[setid];
     if (!circle) continue;
@@ -104,7 +103,7 @@ export function venn(areas: Area[], parameters: Params = {}) {
   // transform solution vector back to x/y points
   var positions = solution.x;
   for (var i = 0; i < setids.length; ++i) {
-    setid = setids[i] as string;
+    const setid = setids[i] as string;
     const circle = circles[setid];
     if (!circle) continue;
     circle.x = positions[2 * i]!;
@@ -145,12 +144,12 @@ function addMissingAreas(areas: Area[]) {
   areas = areas.slice();
 
   // two circle intersections that aren't defined
-  var ids = [],
+  var ids: string[] = [],
     pairs: Record<string, boolean> = {},
-    i,
-    j,
-    a,
-    b;
+    i: number,
+    j: number,
+    a: string,
+    b: string;
 
   for (const area of areas) {
     if (area.sets.length == 1) {
@@ -231,7 +230,7 @@ function constrainedMDSGradient(
   constraints: number[][],
 ) {
   var loss = 0,
-    i;
+    i: number;
   for (i = 0; i < fxprime.length; ++i) {
     fxprime[i] = 0;
   }
@@ -295,9 +294,9 @@ export function constrainedMDSLayout(areas: Area[], params: Params) {
   var restarts = params.restarts || 10;
 
   // bidirectionally map sets to a rowid  (so we can create a matrix)
-  var sets = [],
+  var sets: Area[] = [],
     setids: Record<string, number> = {},
-    i;
+    i: number;
   for (i = 0; i < areas.length; ++i) {
     var area = areas[i];
     if (area?.sets.length === 1) {
@@ -361,7 +360,6 @@ export function constrainedMDSLayout(areas: Area[], params: Params) {
   return circles;
 }
 
-
 /** Lays out a Venn diagram greedily, going from most overlapped sets to
 least overlapped, attempting to position each new set such that the
 overlapping areas to already positioned sets are basically right */
@@ -411,7 +409,7 @@ export function greedyLayout(areas: Area[], params?: any) {
   }
 
   // get list of most overlapped sets
-  var mostOverlapped = [];
+  var mostOverlapped: { set: string; size: number }[] = [];
   for (set in setOverlaps) {
     const overlaps = setOverlaps[set];
     if (overlaps) {
@@ -467,7 +465,7 @@ export function greedyLayout(areas: Area[], params?: any) {
       throw "ERROR: missing pairwise overlap information";
     }
 
-    var points = [];
+    var points: { x: number; y: number }[] = [];
     for (var j = 0; j < overlap.length; ++j) {
       // get appropriate distance from most overlapped already added set
       const item = overlap[j];
@@ -541,7 +539,7 @@ export function lossFunction(sets: CircleRecord, overlaps: Area[]) {
 
   for (var i = 0; i < overlaps.length; ++i) {
     var area = overlaps[i],
-      overlap;
+      overlap: number;
     if (!area || area.sets.length === 1) continue;
 
     if (area.sets.length === 2) {
@@ -577,7 +575,7 @@ function orientateCircles(
     circles.sort(orientationOrder);
   }
 
-  var i;
+  var i: number;
   // shift circles so largest circle is at (0, 0)
   if (circles.length > 0) {
     var largestX = circles[0]!.x,
@@ -610,8 +608,8 @@ function orientateCircles(
         Math.atan2(circles[1]!.x, circles[1]!.y) - (orientation ?? 0),
       c = Math.cos(rotation),
       s = Math.sin(rotation),
-      x,
-      y;
+      x: number,
+      y: number;
 
     for (i = 0; i < circles.length; ++i) {
       const circle = circles[i];
@@ -691,7 +689,7 @@ export function disjointCluster(circles: Circle[]) {
 
   // find all the disjoint clusters and group them together
   var disjointClusters: Record<string, Circle[]> = {},
-    setid;
+    setid: string | number;
   for (i = 0; i < circles.length; ++i) {
     const circle = circles[i];
 

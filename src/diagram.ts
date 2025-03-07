@@ -10,8 +10,8 @@ type Options = {
   height: number
   padding: number
   normalize: boolean
-
 }
+
 export function chartVega(data: Area[], options: Options) {
   const filteredData = data.filter(
     (datum) => datum.size !== 0 && datum.sets.length > 0,
