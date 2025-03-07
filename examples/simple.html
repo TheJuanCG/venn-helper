@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Simple venn.js example</title>
-<style>
-body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
-}
-</style>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,15 +17,48 @@ body {
 </body>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="../dist/index.global.js"></script>
 <script src="../venn.js"></script>
 <script>
-// define sets and set set intersections
-var sets = [ {sets: ['A'], size: 12},
-             {sets: ['B'], size: 12},
-             {sets: ['A','B'], size: 2}];
+    // define sets and set set intersections
+    var sets = [
+        { sets: ["A"], size: 12 },
+        { sets: ["B"], size: 12 },
+        { sets: ["A", "B"], size: 2 },
+    ];
 
-var chart = venn.VennDiagram();
-d3.select("#venn").datum(sets).call(chart);
+    const sets2 = [
+        { sets: ["A"], size: 12 },
+        { sets: ["B"], size: 12 },
+        { sets: ["C"], size: 12 },
+        { sets: ["A", "B"], size: 4 },
+        { sets: ["A", "C"], size: 4 },
+        { sets: ["B", "C"], size: 4 },
+        { sets: ["A", "B", "C"], size: 2 },
+    ];
 
+    var chart = venn.VennDiagram();
+
+    console.log(
+        venn2.chartVega(sets2, {
+            width: 600,
+            height: 350,
+            padding: 16,
+            orientation: Math.PI / 2,
+            normalize: true,
+        }), "venn2"
+    );
+
+    console.log(
+        venn.chartVega(sets2, {
+            width: 600,
+            height: 350,
+            padding: 16,
+            orientation: Math.PI / 2,
+            normalize: true,
+        }), "venn"
+    );
+    d3.select("#venn").datum(sets2).call(chart);
 </script>
+
 </html>
