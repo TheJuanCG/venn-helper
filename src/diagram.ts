@@ -84,6 +84,14 @@ export function chartVega(data: Area[], options: Options) {
       },
     ],
 
+    legend: [
+      {
+        fill: "color",
+        title: "Sets",
+        orient: "right",
+      }
+    ],
+    
     marks: [
       {
         type: "symbol",
